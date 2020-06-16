@@ -1,18 +1,15 @@
-def dfs(graph, start, visited=None):
-    if visited is None:
-        visited = set()
-    visited.add(start)
+def dfs(start, visited, prev, g):
     print(start)
-    temp = graph[start] - visited
-    for next in temp:
-        dfs(graph, next, visited)
-    return visited
+    visited[start] = True
+    for u in g[start]:
+        if not visited[u]:
+            prev[u] = start
+            dfs(u, visited, prev, g)
+            print(start)
 
 
-graph = {'0': set(['4']),
-         '1': set(['2', '4']),
-         '2': set(['1', '3', '4']),
-         '3': set(['2']),
-         '4': set(['0', '1', '2'])}
-
-dfs(graph, '0')
+g = [[4], [2, 4], [1, 3, 4], [2], [0, 1, 2]]
+visited = [False] * len(g)
+prev = [None] * len(g)
+start = 3
+dfs(start, visited, prev, g)
